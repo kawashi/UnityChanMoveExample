@@ -7,17 +7,21 @@ public class UnityChanController : MonoBehaviour {
     private Rigidbody _rigidbody;
     private Animator _animator;
 
-    private bool _onGround ;
+    private bool _onGround;
 
-    void Start () {
+    void Start() {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
     }
 
-    void Update () {
+    void Update() {
         if (!_onGround) return;
         CalcMove();
         CalcJump();
+    }
+    
+    void OnCollisionStay(Collision other) {
+        _onGround = true;
     }
 
     private void CalcMove() {
@@ -37,7 +41,7 @@ public class UnityChanController : MonoBehaviour {
             _animator.SetBool("Running", false);
             return;
         }
-                    
+        
         _animator.SetBool("Running", true);
     }
 
@@ -49,9 +53,5 @@ public class UnityChanController : MonoBehaviour {
         } else {
             _animator.SetBool("Jumping", false);
         }
-    }
-
-    void OnCollisionStay(Collision col) {
-        _onGround = true;
     }
 }
